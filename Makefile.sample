@@ -1,21 +1,15 @@
-BUILD_DIR=build
-PROGNAME_TARG=progname
+.POSIX:
+.SUFFIXES:
 
 include config.mk
-SRCS = main.c
-OBJS = $(patsubst %,$(BUILD_DIR)/%.o,$(SRCS))
-DEPS = $(OBJS:.o=.d)
--include $(DEPS)
 
-build/$(PROGNAME_TARG): $(OBJS)
-	@mkdir -p $(@D)
-	$(CC) -o $@ $(CFLAGS) $(CPPFLAGS) $^ $(LIBS)
+PROG=prog
+SRCS=\
 
-$(BUILD_DIR)/%.c.o: src/%.c
-	@mkdir -p $(@D)
-	$(CC) -c -o $@ -MMD $(CFLAGS) $(CPPFLAGS) $<
+all: $(PROG)
 
-clean:
-	rm -rf $(BUILD_DIR)
+$(PROG): $(SRCS:=.o)
+	$(CC) -o $@ $^ $(LIBS)
 
-.PHONY: clean
+$(SRCS:=.o):
+	$(CC) -c -o $@ $(CFLAGS) $(@:.o=.c)
