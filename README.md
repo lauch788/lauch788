@@ -1,2 +1,1 @@
-Hello I'm Adrien
-
+Greetings and Happy New Year!
